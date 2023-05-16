@@ -34,11 +34,10 @@ def check(text):
  
         
 def bargain():
-    subprocess.run('echo off | clip',shell=True)
-    time.sleep(0.5)
     minprice = 0
     while (True):
         flag = 0
+        subprocess.run('echo off | clip',shell=True)
         while (len(pyperclip.paste()) == 0 and flag <2):
             flag += 1
             pyautogui.moveTo(random.randint(600,630),random.randint(755,762),duration=r())
@@ -51,7 +50,7 @@ def bargain():
         maxprice = int(pyperclip.paste())
         subprocess.run('echo off | clip',shell=True)
         if abs(maxprice-minprice) > 6 :
-            tmp = (minprice+maxprice)/2.2
+            tmp = (minprice+maxprice)/2.15
             minprice = tmp
             pyautogui.typewrite(str(int(tmp)),interval=r())
         pyautogui.moveTo(random.randint(548,702),random.randint(854,874),duration=r())
@@ -65,12 +64,12 @@ def get_info():
     y_pos = 280
     while (True):
         pyautogui.moveTo(x_pos+random.randint(-10,10),y_pos+random.randint(-10,10),duration=r())
-        time.sleep(0.1+r())
+        time.sleep(r())
+        subprocess.run('echo off | clip',shell=True)
         flag = 0
-        while (len(pyperclip.paste())==0 and flag <2):
+        while (len(pyperclip.paste())==0 and flag <5):
             flag += 1
-            pyautogui.hotkey('ctrl','c',interval=r())
-        time.sleep(0.2+r())
+            pyautogui.hotkey('ctrl','c',interval=random.uniform(0,0.1))
         now_text = pyperclip.paste()
         if (len(now_text) == 0):
             return
