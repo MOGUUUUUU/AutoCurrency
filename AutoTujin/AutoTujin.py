@@ -24,8 +24,11 @@ def r():
 def check(text):
     if '深渊珠宝' in text and '物品等级: 86' in text:
         return True
-    if '星团珠宝' in text and'物品等级: 84' in text:
-        return True
+    if '星团珠宝' in text:
+        if '物品等级: 84' in text or '物品等级: 85' in text or '物品等级: 86' in text:
+            return True
+        else :
+            return False
     else :
         return False
  
@@ -48,7 +51,7 @@ def bargain():
         maxprice = int(pyperclip.paste())
         subprocess.run('echo off | clip',shell=True)
         if abs(maxprice-minprice) > 6 :
-            tmp = (minprice+maxprice)/2.15
+            tmp = (minprice+maxprice)/2.2
             minprice = tmp
             pyautogui.typewrite(str(int(tmp)),interval=r())
         pyautogui.moveTo(random.randint(548,702),random.randint(854,874),duration=r())
