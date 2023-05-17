@@ -12,7 +12,7 @@ def putting():
     pyautogui.keyDown('ctrl')
     while xpos < 1899:
         while ypos < 845:
-            pyautogui.moveTo(xpos+random.randint(-5,5),ypos+random.randint(-5,5),duration=random.uniform(0,0.005))
+            pyautogui.moveTo(xpos+random.randint(-5,5),ypos+random.randint(-5,5))
             pyautogui.click(button='left')
             ypos += 50
         xpos += 52
