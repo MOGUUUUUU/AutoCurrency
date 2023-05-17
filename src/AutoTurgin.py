@@ -89,7 +89,7 @@ def get_info():
             y_pos = 280
             x_pos += 52
         
-def run(times):
+def main(times):
     for i in range(times):
         i = i+1
         get_info()
@@ -97,14 +97,10 @@ def run(times):
         pyautogui.click(button='left')
 
 
-hld = win32gui.FindWindow(None,u"Path of Exile")
-win32gui.SetForegroundWindow(hld)
-            
-# get_info()
-
-run(100)
-
-
-with open('log.txt','w',encoding='utf-8') as log:
-    for item in items:
-        log.write(item+'\n')
+if __name__ == '__main__':
+    hld = win32gui.FindWindow(None,u"Path of Exile")
+    win32gui.SetForegroundWindow(hld)
+    main(100)
+    with open('log.txt','w',encoding='utf-8') as log:
+        for item in items:
+            log.write(item+'\n')
