@@ -4,6 +4,8 @@ import random
 import pyperclip
 import win32gui
 import time
+import put_to_ware
+
 
 needs = ['链结石','机会石','崇高石','剥离石','觉醒六分仪','祝福石','重铸石','改造石','神圣石',\
     '改造石','混沌石','命运卡','链结石','制图钉','棱光催化剂','丰沃催化剂','不稳定的催化剂',\
@@ -91,16 +93,36 @@ def get_info():
         
 def main(times):
     for i in range(times):
-        i = i+1
         get_info()
         pyautogui.moveTo(random.randint(929,960),random.randint(860,887),duration=r())
         pyautogui.click(button='left')
+    
+    pyautogui.moveTo(951,200,duration=r())
+    time.sleep(0.1+r())
+    pyautogui.click(button='left')
+        
+    pyautogui.moveTo(898,415,duration=r())
+    time.sleep(0.1+r())
+    pyautogui.click(button='left')
+    time.sleep(0.1+r())
+    
+    put_to_ware.putting()
+        
+    pyautogui.keyDown('ctrl')
+    pyautogui.moveTo(1017+random.randint(-2,2),358+random.randint(-1,1),duration=r())
+    time.sleep(0.1+r())
+    pyautogui.click(button='left')
+    pyautogui.keyUp('ctrl')
 
 
 if __name__ == '__main__':
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
-    main(100)
-    with open('log.txt','w',encoding='utf-8') as log:
+    
+    for i in range (8):
+        main(40)
+    
+    with open('log.txt','a',encoding='utf-8') as log:
+        log.write(f'now time is {time.localtime()}\n')
         for item in items:
             log.write(item+'\n')
