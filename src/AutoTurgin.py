@@ -51,8 +51,8 @@ def bargain():
             return
         maxprice = int(pyperclip.paste())
         subprocess.run('echo off | clip',shell=True)
-        if abs(maxprice-minprice) > 6 :
-            tmp = (minprice+maxprice)/2.15
+        if abs(maxprice-minprice) > 10 :
+            tmp = (minprice+maxprice)/2.1
             minprice = tmp
             pyautogui.typewrite(str(int(tmp)),interval=r())
         pyautogui.moveTo(random.randint(548,702),random.randint(854,874),duration=r())
@@ -119,8 +119,8 @@ if __name__ == '__main__':
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
     
-    for i in range (8):
-        main(40)
+    for i in range (11):
+        main(30)
     
     with open('log.txt','a',encoding='utf-8') as log:
         log.write(f'now time is {time.localtime()}\n')
