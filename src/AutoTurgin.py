@@ -55,8 +55,8 @@ def bargain():
             tmp = (minprice+maxprice)/2.1
             minprice = tmp
             pyautogui.typewrite(str(int(tmp)),interval=r())
-        pyautogui.moveTo(random.randint(548,702),random.randint(854,874),duration=r())
-        time.sleep(r())
+        pyautogui.moveTo(random.randint(560,660),random.randint(856,864),duration=r())
+        time.sleep(r()+0.1)
         pyautogui.click(button='left')
         
 
@@ -81,7 +81,6 @@ def get_info():
                 if needitem == '安睡之凝珠宝' or needitem == '星团珠宝':
                     if check(now_text) is not True:
                         continue
-                items.append(needitem)
                 pyautogui.click(button='left')
                 bargain()
                 break                
@@ -119,10 +118,6 @@ if __name__ == '__main__':
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
     
-    for i in range (11):
+    for i in range (14):
         main(30)
     
-    with open('log.txt','a',encoding='utf-8') as log:
-        log.write(f'now time is {time.localtime()}\n')
-        for item in items:
-            log.write(item+'\n')
