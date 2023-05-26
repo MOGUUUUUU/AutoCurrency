@@ -4,6 +4,7 @@ import win32gui
 import pyperclip
 import random
 import time
+
 key_value = { '区域内残骸数量提高': 40,
               '爆炸范围扩大': 40,
               '爆炸物数量提高': 40,
@@ -16,7 +17,7 @@ key_value = { '区域内残骸数量提高': 40,
               '怪物掉落的神器数量提高': 40}
 
 key_weights = {'区域内残骸数量提高': 1,
-               '爆炸范围扩大': 1,
+               '爆炸范围扩大': 1.05,
                '爆炸物数量提高': 1.15,
                '发掘的箱子有' : 2.15,
                '残骸有': 1.15,
@@ -46,7 +47,9 @@ def get_pos():
         posy = 612
     return item_pos
     
-def get_info(item_pos):
+def auto_diary(item_pos):
+    hld = win32gui.FindWindow(None,u"Path of Exile")
+    win32gui.SetForegroundWindow(hld)
     ans = []
     for pos in item_pos:
         pyautogui.moveTo(pos,duration=r())  
@@ -58,7 +61,7 @@ def get_info(item_pos):
             pyautogui.hotkey('ctrl','c',interval=r())
             time.sleep(r())
         if not len(pyperclip.paste()):
-            continue
+            return
         info = pyperclip.paste()
         if check(info):
             ans.append(pos)
@@ -66,8 +69,6 @@ def get_info(item_pos):
     
 def check(info):
     text = info.split('-')
-    f = open('AutoDiary.txt','a',encoding='utf-8')
-    f.write('\n===============================================\n')
     for area in text:
         if len(area) and '黑镰' in area:
             line = area.split('\n')
@@ -82,26 +83,15 @@ def check(info):
                     line_type = needline.split(' ')[0]
                     line_value = int(needline.split(' ')[1].strip('%'))
                     now_value += line_value * key_weights[line_type]
-            # print (f'now_value is {now_value}  need value is {area_value*0.75}')
+            print (f'now_value is {now_value}  need value is {area_value*0.75}')
             if now_value >= area_value*0.8:
-                f.close()
                 return True
-            f.write(area)
-            f.write(f'now_value is {now_value}  need value is {area_value*0.75}')
-    f.close()
     return False
 
 if __name__ == '__main__':
-    # with open ('eg.txt','r',encoding='utf-8') as f:
-    #     info = f.read()
-    #     if check(info):
-    #         print ('True')
-    #     else: print(False)
-    hld = win32gui.FindWindow(None,u"Path of Exile")
-    win32gui.SetForegroundWindow(hld)
-    
     item_pos = get_pos()
-    get_info(item_pos)
+    ans = auto_diary(item_pos)
+    print (len(ans))
     # ans = get_info(item_pos)
     # pyautogui.keyDown('ctrl')
     # pyautogui.keyDown('shift')
