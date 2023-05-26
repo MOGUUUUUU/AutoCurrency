@@ -47,7 +47,7 @@ def get_pos():
         posy = 612
     return item_pos
     
-def auto_diary(item_pos):
+def auto_diary(item_pos, limit=10):
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
     ans = []
@@ -56,29 +56,31 @@ def auto_diary(item_pos):
     time.sleep(r())
     pyautogui.click(button='right')
     for pos in item_pos:
-        pyautogui.moveTo(pos,duration=r())  
-        os.system('echo off | clip')
-        pyautogui.hotkey('ctrl','c',interval=r())
-        flag = 0
-        while not len(pyperclip.paste()) and flag < 5:
-            flag += 1
-            pyautogui.hotkey('ctrl','c',interval=r())
-            time.sleep(r())
-        if not len(pyperclip.paste()):
-            pyautogui.keyUp('shift')
-            return ans
-        info = pyperclip.paste()
+        pyautogui.moveTo(pos,duration=r())
         count = 0
-        while not check(info) and count < 10:
-            count += 1
+        while count < limit:
+            os.system('echo off | clip')
+            pyautogui.hotkey('ctrl','c',interval=r())
+            flag = 0
+            while not len(pyperclip.paste()) and flag < 5:
+                flag += 1
+                pyautogui.hotkey('ctrl','c',interval=r())
+                time.sleep(r())
+            if not len(pyperclip.paste()):
+                pyautogui.keyUp('shift')
+                return ans
+            info = pyperclip.paste()
+            if check(info):
+                ans.append(pos)
+                break
             pyautogui.click(button='left')
+            count += 1
             time.sleep(r())
-        if check(info):
-            ans.append(pos)
     pyautogui.keyUp('shift')
     return ans
     
 def check(info):
+    print (info)
     text = info.split('-')
     for area in text:
         if len(area) and '黑镰' in area:
