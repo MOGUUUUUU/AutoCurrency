@@ -21,7 +21,7 @@ key_weights = {'区域内残骸数量提高': 1,
                '爆炸物数量提高': 1.15,
                '发掘的箱子有' : 2.15,
                '残骸有': 1.15,
-               '炸药放置范围扩大': 0.85,
+               '炸药放置范围扩大': 1,
                '区域内怪物之印的数量提高': 1.15,
                '区域内符纹怪物之印的数量提高': 1.15,
                '区域内额外有': 2.15,
@@ -61,7 +61,7 @@ def auto_diary(item_pos):
             pyautogui.hotkey('ctrl','c',interval=r())
             time.sleep(r())
         if not len(pyperclip.paste()):
-            return
+            return ans
         info = pyperclip.paste()
         if check(info):
             ans.append(pos)
@@ -84,7 +84,7 @@ def check(info):
                     line_value = int(needline.split(' ')[1].strip('%'))
                     now_value += line_value * key_weights[line_type]
             print (f'now_value is {now_value}  need value is {area_value*0.75}')
-            if now_value >= area_value*0.8:
+            if now_value >= area_value*0.75:
                 return True
     return False
 
@@ -92,6 +92,14 @@ if __name__ == '__main__':
     item_pos = get_pos()
     ans = auto_diary(item_pos)
     print (len(ans))
+    pyautogui.keyDown('ctrl')
+    pyautogui.keyDown('shift')
+    for pos in ans:
+        pyautogui.moveTo(pos,duration=r())
+        time.sleep(r())
+        pyautogui.click(button='left')
+    pyautogui.keyUp('ctrl')
+    pyautogui.keyUp('shift')
     # ans = get_info(item_pos)
     # pyautogui.keyDown('ctrl')
     # pyautogui.keyDown('shift')
