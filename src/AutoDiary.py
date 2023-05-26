@@ -6,25 +6,25 @@ import random
 import time
 key_value = { '区域内残骸数量提高': 40,
               '爆炸范围扩大': 40,
-              '爆炸物数量提高': 50,
+              '爆炸物数量提高': 40,
               '发掘的箱子有' : 25,
               '残骸有': 40,
-              '炸药放置范围扩大': 40,
-              '区域内怪物之印的数量提高': 50,
+              '炸药放置范围扩大': 50,
+              '区域内怪物之印的数量提高': 40,
               '区域内符纹怪物之印的数量提高': 40,
               '区域内额外有': 16,
               '怪物掉落的神器数量提高': 40}
 
 key_weights = {'区域内残骸数量提高': 1,
                '爆炸范围扩大': 1,
-               '爆炸物数量提高': 1.3,
-               '发掘的箱子有' : 2,
-               '残骸有': 1.1,
-               '炸药放置范围扩大': 0.8,
-               '区域内怪物之印的数量提高': 1.5,
-               '区域内符纹怪物之印的数量提高': 1.2,
-               '区域内额外有': 2.2,
-               '怪物掉落的神器数量提高': 1.2}
+               '爆炸物数量提高': 1.15,
+               '发掘的箱子有' : 2.15,
+               '残骸有': 1.15,
+               '炸药放置范围扩大': 0.85,
+               '区域内怪物之印的数量提高': 1.15,
+               '区域内符纹怪物之印的数量提高': 1.15,
+               '区域内额外有': 2.15,
+               '怪物掉落的神器数量提高': 1.1}
 
 no_wants = ('药剂','冷却','元素伤害','总回复速度')
 
@@ -66,27 +66,29 @@ def get_info(item_pos):
     
 def check(info):
     text = info.split('-')
+    f = open('AutoDiary.txt','a',encoding='utf-8')
+    f.write('\n===============================================\n')
     for area in text:
-            if len(area) and '黑镰' in area:
-                line = area.split('\n')
-                area_value = 0
-                for needline in line:
-                    if '%' in needline:
-                        line_type = needline.split(' ')[0]
-                        area_value += key_value[line_type] * key_weights[line_type]
-                now_value = 0  
-                for needline in line:
-                    if '%' in needline:
-                        line_type = needline.split(' ')[0]
-                        line_value = int(needline.split(' ')[1].strip('%'))
-                        now_value += line_value * key_weights[line_type]
-                with open('AutoDiary.txt','a',encoding='utf-8') as f:
-                    f.write(info)
-                    f.write(f'now_value is {now_value}  need value is {area_value*0.75}')
-                    f.write('\n-------------------------------------------\n')
-                # print (f'now_value is {now_value}  need value is {area_value*0.75}')
-                if now_value >= area_value*0.8:
-                    return True
+        if len(area) and '黑镰' in area:
+            line = area.split('\n')
+            area_value = 0
+            for needline in line:
+                if '%' in needline:
+                    line_type = needline.split(' ')[0]
+                    area_value += key_value[line_type] * key_weights[line_type]
+            now_value = 0  
+            for needline in line:
+                if '%' in needline:
+                    line_type = needline.split(' ')[0]
+                    line_value = int(needline.split(' ')[1].strip('%'))
+                    now_value += line_value * key_weights[line_type]
+            # print (f'now_value is {now_value}  need value is {area_value*0.75}')
+            if now_value >= area_value*0.8:
+                f.close()
+                return True
+            f.write(area)
+            f.write(f'now_value is {now_value}  need value is {area_value*0.75}')
+    f.close()
     return False
 
 if __name__ == '__main__':
