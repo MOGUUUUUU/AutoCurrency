@@ -51,6 +51,10 @@ def auto_diary(item_pos):
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
     ans = []
+    pyautogui.moveTo(1223+random.randint(-5,5),614+random.randint(-5,5),duration=r())
+    pyautogui.keyDown('shift')
+    time.sleep(r())
+    pyautogui.click(button='right')
     for pos in item_pos:
         pyautogui.moveTo(pos,duration=r())  
         os.system('echo off | clip')
@@ -61,10 +65,17 @@ def auto_diary(item_pos):
             pyautogui.hotkey('ctrl','c',interval=r())
             time.sleep(r())
         if not len(pyperclip.paste()):
+            pyautogui.keyUp('shift')
             return ans
         info = pyperclip.paste()
+        count = 0
+        while not check(info) and count < 10:
+            count += 1
+            pyautogui.click(button='left')
+            time.sleep(r())
         if check(info):
             ans.append(pos)
+    pyautogui.keyUp('shift')
     return ans
     
 def check(info):
