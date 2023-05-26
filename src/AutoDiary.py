@@ -56,13 +56,11 @@ def get_info(item_pos):
         while not len(pyperclip.paste()) and flag < 5:
             flag += 1
             pyautogui.hotkey('ctrl','c',interval=r())
+            time.sleep(r())
         if not len(pyperclip.paste()):
             continue
         info = pyperclip.paste()
         if check(info):
-            with open('AutoDiary.txt','a',encoding='utf-8') as f:
-                f.write(info)
-                f.write('\n-------------------------------------------\n')
             ans.append(pos)
     return ans
     
@@ -82,7 +80,11 @@ def check(info):
                         line_type = needline.split(' ')[0]
                         line_value = int(needline.split(' ')[1].strip('%'))
                         now_value += line_value * key_weights[line_type]
-                print (f'now_value is {now_value}  need value is {area_value*0.75}')
+                with open('AutoDiary.txt','a',encoding='utf-8') as f:
+                    f.write(info)
+                    f.write(f'now_value is {now_value}  need value is {area_value*0.75}')
+                    f.write('\n-------------------------------------------\n')
+                # print (f'now_value is {now_value}  need value is {area_value*0.75}')
                 if now_value >= area_value*0.8:
                     return True
     return False
