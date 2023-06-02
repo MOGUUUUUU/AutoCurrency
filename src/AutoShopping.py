@@ -9,7 +9,10 @@ def r():
     return random.uniform(0.2,0.5)
 
 def get_img():
-    pass
+    img = pyautogui.screenshot()
+    img = cv2.cvtColor(np.asarray(img),cv2.COLOR_RGB2BGR)
+    cv2.imshow('img',img)
+    cv2.waitKey(0)
 
 def next_page():
     pass
@@ -91,3 +94,6 @@ def main():
         count += auto_shopping()
     print(f'bought {count} items')
     
+
+if __name__ == '__main__':
+    get_img()
