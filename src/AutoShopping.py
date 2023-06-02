@@ -14,10 +14,15 @@ def get_img():
 def next_page():
     pass
 
-def purchase_item(pos_list):
-    for pos in pos_list:
-        pyautogui.moveTo(pos,duration=r())
-        
+def purchase_item(pos):
+    pyautogui.moveTo(pos,duration=r())
+    pyautogui.click(button='left')
+    pass
+    
+def init_purchase():
+    pyautogui.press('/')
+    time.sleep(1+r())
+    pyautogui.press('/')    
     
 def cal_gray_value(img):
     r, g, b = cv2.split(img)
@@ -59,16 +64,30 @@ def check_slice(img_slice, limit=1500):
         
 def auto_shopping():
     img = get_img()
-    pos = []
+    pos_list = []
     img_slice = get_img_slice(img)
     for slice in img_slice:
         if check_slice(slice):
-            pos.append(slice['pos'])
+            pos_list.append(slice['pos'])
+    count = 0
+    init_purchase()
+    for pos in pos_list:
+        if count >=5 :
+            init_purchase()
+            count = 0
+        purchase_item(pos)
+        count += 1
+    next_page()
+    return len(pos_list)
     
     
     
 def main():
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
-    auto_shopping()
+    times = 5
+    count = 0
+    for i in range(times):
+        count += auto_shopping()
+    print(f'bought {count} items')
     
