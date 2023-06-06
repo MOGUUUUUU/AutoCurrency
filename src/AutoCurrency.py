@@ -15,7 +15,7 @@ with open('./config/position','r') as f:
         pass
 
 def r():
-    return random.uniform(0.01,0.03)
+    return random.uniform(0.1,0.4)
 
 def auto_currency(currency_type=None, needs=tuple(), limit=2400, item_pos=[], *arg):
     hld = win32gui.FindWindow(None,u"Path of Exile")
@@ -41,8 +41,9 @@ def use_alteration(needs=tuple(), item_pos=None, limit=2400):
         print(need)
         totcount += count
         count = 0
-        pyautogui.moveTo(target_pos,duration=0.3+r())
+        pyautogui.moveTo(target_pos,duration=0.2+r())
         while True:
+            pyautogui.hotkey('ctrl','c')
             pyautogui.hotkey('ctrl','c')
             if count >= limit:
                 pyautogui.keyUp('shift')

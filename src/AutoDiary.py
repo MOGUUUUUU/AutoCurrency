@@ -96,8 +96,8 @@ def check(info):
                     line_type = needline.split(' ')[0]
                     line_value = int(needline.split(' ')[1].strip('%'))
                     now_value += line_value * key_weights[line_type]
-            print (f'now_value is {now_value}  need value is {area_value*0.75}')
-            if now_value >= area_value*0.75:
+            print (f'now_value is {now_value}  need value is {area_value*0.8}')
+            if now_value >= area_value*0.8:
                 return True
     return False
 
