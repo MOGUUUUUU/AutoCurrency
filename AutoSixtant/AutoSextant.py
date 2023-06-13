@@ -20,7 +20,6 @@ def r():
     return random.uniform(0.1, 0.2)
 
 def r_pos(pos, range=1):
-    print(pos)
     return (pos[0]+random.randint(-range,range),pos[1]+random.randint(-range,range))
 
 bag_start_pos = (1279, 593)
@@ -42,17 +41,13 @@ os.chdir(file_root)
 have_sixtant = set()
 with open('sixtant_value.txt', 'r', encoding='utf-8') as f:
     for line in f:
-        if not ':' in line:
-            continue
-        sixtant = line.split(':')[0]
-        value = line.split(':')[1]
-        sixtant_value[sixtant] = int(value)
-    for line in f:
-        if ':' not in line:
-            continue
         sixtant = line.split(':')[0]
         have_sixtant.add(sixtant)
-    
+        if not ':' in line:
+            continue
+        value = line.split(':')[1]
+        sixtant_value[sixtant] = int(value)
+        
 with open('pos_sixtant.txt', 'r', encoding='utf-8') as f:
     for line in f:
         pos = line.split(':')[0]
@@ -66,6 +61,7 @@ def click_sixtant():
     time.sleep(r())
     pyautogui.press('space')
     pyautogui.moveTo(r_pos(ware_pos), duration=r())
+    time.sleep(r())
     pyautogui.click(button='left')
     time.sleep(r())
     pyautogui.moveTo(r_pos(sixtant_click_pos), duration=r())
@@ -90,7 +86,7 @@ def safe_click(button='left'):
             continue
         return pyperclip.paste()
     
-def get_sixtant(info):
+def get_sixtant_info(info):
     # print(info.split('\n'))
     sixtant = info.split('\n')[6]
     return sixtant
@@ -112,7 +108,7 @@ def use_compass(compass_pos, bag_pos):
     pyautogui.click(button='left')
     pyautogui.press('i')
     return r_pos(bag_pos)
-             
+    
 def auto_sixtant(times=10, ignore= 0):
     sixtants = []
     compass_pos_list = [(1171,611)]
@@ -120,13 +116,14 @@ def auto_sixtant(times=10, ignore= 0):
     for i in range(times):
         info = safe_click()
         if not info:
+            time.sleep(60+r()*5)
+            print("Use sixtant error, wait 60 seconds.\n")
             continue
-        sixtant = get_sixtant(info)
-        # if sixtant_value[sixtant] < ignore:
-        #     continue
+        sixtant = get_sixtant_info(info)
+        if sixtant in sixtant_value and sixtant_value[sixtant] < ignore:
+            continue
         sixtants.append(sixtant)
-        item_pos = bag_pos_list.pop()
-        use_compass(compass_pos_list[0] , r_pos(item_pos))
+        use_compass(compass_pos_list[0] , r_pos(bag_pos_list[i]))
         time.sleep(r())
         click_sixtant()
 
@@ -136,14 +133,17 @@ def auto_sixtant(times=10, ignore= 0):
         for sixtant in sixtants:
             if sixtant not in have_sixtant:
                 have_sixtant.add(sixtant)
-                f.write(sixtant + '\n')
+                f.write(sixtant)
         
     return sixtants
 
 
 if __name__ == '__main__':
-    hld = win32gui.FindWindow(None,u"Path of Exile")
-    win32gui.SetForegroundWindow(hld)
-    time.sleep(1)
-    auto_sixtant()
+    # hld = win32gui.FindWindow(None,u"Path of Exile")
+    # win32gui.SetForegroundWindow(hld)
+    # time.sleep(1)
+    
+    # auto_sixtant()
     pyautogui.keyUp('shift')
+    for sixtant in have_sixtant:
+        print(sixtant)
