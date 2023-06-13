@@ -91,7 +91,8 @@ def get_sixtant_info(info):
     sixtant = info.split('\n')[6]
     return sixtant
 
-def use_compass(compass_pos, bag_pos):
+ #Todo  use_compass  from package
+def use_compass(compass_pos, bag_pos):       
     itempos = r_pos(pyautogui.position())
     pyautogui.keyUp('shift')
     time.sleep(r())
