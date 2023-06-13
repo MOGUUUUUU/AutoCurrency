@@ -91,28 +91,32 @@ def get_sixtant_info(info):
     sixtant = info.split('\n')[6]
     return sixtant
 
- #Todo  use_compass  from package
-def use_compass(compass_pos, bag_pos):       
+compass_pos = (159,647)
+def use_compass(bag_pos):       
     itempos = r_pos(pyautogui.position())
     pyautogui.keyUp('shift')
     time.sleep(r())
-    pyautogui.press('i')
+    pyautogui.press('space')
+    pyautogui.moveTo(r_pos(ware_pos), duration=r())
+    time.sleep(r())
+    pyautogui.click(button='left')
     pyautogui.moveTo(r_pos(compass_pos), duration=r())
     pyautogui.click(button='right')
     time.sleep(r())
-    pyautogui.moveTo(r_pos(itempos), duration=r())
+    pyautogui.press('g')
+    time.sleep(r())
+    pyautogui.moveTo(itempos, duration=r())
     time.sleep(r())
     pyautogui.click(button='left')
+    pyautogui.press('i')
     time.sleep(r())
     pyautogui.moveTo(bag_pos, duration=r())
     time.sleep(r())
     pyautogui.click(button='left')
     pyautogui.press('i')
-    return r_pos(bag_pos)
     
-def auto_sixtant(times=10, ignore= 0):
+def auto_sixtant(times=60, ignore= 0):
     sixtants = []
-    compass_pos_list = [(1171,611)]
     click_sixtant()
     for i in range(times):
         info = safe_click()
@@ -124,7 +128,7 @@ def auto_sixtant(times=10, ignore= 0):
         if sixtant in sixtant_value and sixtant_value[sixtant] < ignore:
             continue
         sixtants.append(sixtant)
-        use_compass(compass_pos_list[0] , r_pos(bag_pos_list[i]))
+        use_compass(r_pos(bag_pos_list[i]))
         time.sleep(r())
         click_sixtant()
 
@@ -134,17 +138,17 @@ def auto_sixtant(times=10, ignore= 0):
         for sixtant in sixtants:
             if sixtant not in have_sixtant:
                 have_sixtant.add(sixtant)
-                f.write(sixtant)
+                f.write(sixtant) 
         
     return sixtants
 
 
 if __name__ == '__main__':
-    # hld = win32gui.FindWindow(None,u"Path of Exile")
-    # win32gui.SetForegroundWindow(hld)
-    # time.sleep(1)
+    hld = win32gui.FindWindow(None,u"Path of Exile")
+    win32gui.SetForegroundWindow(hld)
+    time.sleep(1)
     
-    # auto_sixtant()
+    auto_sixtant()
     pyautogui.keyUp('shift')
     for sixtant in have_sixtant:
         print(sixtant)
