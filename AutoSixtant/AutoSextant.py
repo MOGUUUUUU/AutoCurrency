@@ -53,9 +53,6 @@ with open('pos_sixtant.txt', 'r', encoding='utf-8') as f:
         pos = line.split(':')[0]
         sixtant = line.split(':')[1]
         pos_sixtant[pos] = sixtant
-
-def cal_profit():
-    value = 0
     
 def click_sixtant():
     time.sleep(r())
@@ -74,7 +71,7 @@ def click_sixtant():
     
 def safe_click(button='left'):
     os.system('echo off | clip')
-    time.sleep(0.2+r())
+    time.sleep(0.1+r())
     while True:
         pyautogui.click(button=button)
         flag = 0
@@ -122,7 +119,7 @@ def auto_sixtant(times=60, ignore= 0):
         info = safe_click()
         if not info:
             time.sleep(60+r()*5)
-            print("Use sixtant error, wait 60 seconds.\n")
+            print(f"Use sixtant error, wait 60 seconds.\n")
             continue
         sixtant = get_sixtant_info(info)
         if sixtant in sixtant_value and sixtant_value[sixtant] < ignore:
@@ -144,6 +141,8 @@ def auto_sixtant(times=60, ignore= 0):
 
 
 if __name__ == '__main__':
+    # for item in have_sixtant:
+    #     print (item)
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
     time.sleep(1)
