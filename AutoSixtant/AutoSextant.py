@@ -68,22 +68,23 @@ def click_sixtant():
     pyautogui.moveTo(r_pos(ware_pos), duration=r())
     pyautogui.click(button='left')
     time.sleep(r())
-    pyautogui.moveTo(sixtant_click_pos, duration=r())
+    pyautogui.moveTo(r_pos(sixtant_click_pos), duration=r())
     pyautogui.keyDown('shift')
     time.sleep(r())
     pyautogui.click(button='right')
     pyautogui.press('g')
-    pyautogui.moveTo(watchstone_click_pos, duration=r())
+    pyautogui.moveTo(r_pos(watchstone_click_pos), duration=r())
     time.sleep(r())    
     
 def safe_click(button='left'):
     os.system('echo off | clip')
-    time.sleep(0.5+r())
+    time.sleep(0.2+r())
     while True:
         pyautogui.click(button=button)
         flag = 0
-        while (not len(pyperclip.paste()) and flag < 2):
+        while (not len(pyperclip.paste()) and flag < 5):
             pyautogui.hotkey('ctrl', 'c', interval=r())
+            time.sleep(r())
             flag = flag + 1
         if not len(pyperclip.paste()):
             continue
