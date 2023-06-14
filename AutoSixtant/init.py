@@ -26,11 +26,13 @@ def init():
             # sixtant_value[sixtant] = '-1'
             # sixtant_value[sixtant] = str(random.randint(3,10))
             sixtant_value[sixtant] = str(value)
-
+            
+    sixtant_price = sorted(sixtant_value.items(), key=lambda v:int(v[1]), reverse=True)
+    # print(sixtant_price)
     with open(sixtant_value_txt, 'w', encoding='utf-8') as f:
-        # print(sixtant_value)
-        for sixtant, value in sixtant_value.items():
-            line = f'{sixtant}:{value}'
+        for info in sixtant_price:
+            key, value = info
+            line = f'{key}:{value}'
             f.write(line + '\n')
 
 def cal_profits(ignore=0):
@@ -57,6 +59,7 @@ def cal_profits(ignore=0):
     
 if __name__ == '__main__':
     init()
+    exit()
     print(len(sixtant_value))
     for i in range (0,20):
         print(f'ignore = {i}')
