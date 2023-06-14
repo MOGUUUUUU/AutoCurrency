@@ -41,11 +41,11 @@ os.chdir(file_root)
 have_sixtant = set()
 with open('sixtant_value.txt', 'r', encoding='utf-8') as f:
     for line in f:
-        sixtant = line.split(':')[0]
+        sixtant = line.split(':')[0].replace('\n', '')
         have_sixtant.add(sixtant)
         if not ':' in line:
             continue
-        value = line.split(':')[1]
+        value = line.split(':')[1].replace('\n', '')
         sixtant_value[sixtant] = int(value)
         
 with open('pos_sixtant.txt', 'r', encoding='utf-8') as f:
@@ -133,7 +133,7 @@ def auto_sixtant(times=60, ignore= 0):
     
     with open('sixtant_value.txt', 'a', encoding='utf-8') as f:
         for sixtant in sixtants:
-            if sixtant not in have_sixtant:
+            if not (sixtant in have_sixtant):
                 have_sixtant.add(sixtant)
                 f.write(sixtant) 
         
