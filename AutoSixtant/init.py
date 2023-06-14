@@ -16,7 +16,7 @@ with open(item_info_txt, 'r', encoding='utf-8') as f:
 
 with open(sixtant_value_txt, 'r', encoding='utf-8') as f:
     for line in f:
-        sixtant = line.split(':')[0].replace('\n', '')
+        sixtant = line.split(':')[0].strip()
         have_sixtants.add(sixtant)
         if not (':' in line):
             value = input(f'need to set value {line}')

@@ -35,7 +35,16 @@ import win32gui
 def main():
     hld = win32gui.FindWindow(None,u"此电脑")
     win32gui.SetForegroundWindow(hld)
-    
+ 
+def isTrue(info):
+    print (info)
+    if len(info) :
+        return True
+    else:
+        return False    
 
 if __name__ == '__main__':
-    main()
+    a = None
+    while a and not isTrue(a) and 1 < 2:
+        print (1)
+        print(isTrue(a))
