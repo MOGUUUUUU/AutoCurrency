@@ -38,13 +38,9 @@ while pos_x < bag_end_pos[0]:
 file_path = os.path.abspath(__file__)
 file_root = os.path.dirname(file_path)
 os.chdir(file_root)
-have_sixtant = set()
 with open('sixtant_value.txt', 'r', encoding='utf-8') as f:
     for line in f:
         sixtant = line.split(':')[0].strip()
-        have_sixtant.add(sixtant)
-        if not ':' in line:
-            continue
         value = line.split(':')[1].strip()
         sixtant_value[sixtant] = int(value)
         
@@ -85,7 +81,7 @@ def safe_click(button='left'):
     
 def get_sixtant_info(info):
     # print(info.split('\n'))
-    sixtant = info.split('\n')[6]
+    sixtant = info.split('\n')[6].strip()
     return sixtant
 
 compass_pos = (159,647)
@@ -112,7 +108,7 @@ def use_compass(bag_pos):
     pyautogui.click(button='left')
     pyautogui.press('i')
     
-def auto_sixtant(times=60, ignore= 0):
+def auto_sixtant(times=3, ignore= 10):
     sixtants = []
     click_sixtant()
     for i in range(times):
@@ -122,7 +118,16 @@ def auto_sixtant(times=60, ignore= 0):
             print(f"Use sixtant error, wait 60 seconds.\n")
             continue
         sixtant = get_sixtant_info(info)
-        if sixtant in sixtant_value and sixtant_value[sixtant] < ignore:
+        if not (sixtant in sixtant_value):
+            pyautogui.keyUp('shift')
+            value = pyautogui.prompt(f'Set {sixtant}:')
+            sixtant_value[sixtant] = int(value)
+            if sixtant_value[sixtant] < ignore:
+                click_sixtant()
+                i = i-1
+                continue
+        if sixtant_value[sixtant] < ignore:
+            i = i-1
             continue
         sixtants.append(sixtant)
         use_compass(r_pos(bag_pos_list[i]))
@@ -130,24 +135,17 @@ def auto_sixtant(times=60, ignore= 0):
         click_sixtant()
 
     pyautogui.keyUp('shift')
-    
-    with open('sixtant_value.txt', 'a', encoding='utf-8') as f:
-        for sixtant in sixtants:
-            if not (sixtant in have_sixtant):
-                have_sixtant.add(sixtant)
-                f.write(sixtant) 
-        
     return sixtants
 
 
 if __name__ == '__main__':
-    # for item in have_sixtant:
-    #     print (item)
     hld = win32gui.FindWindow(None,u"Path of Exile")
     win32gui.SetForegroundWindow(hld)
     time.sleep(1)
     
     auto_sixtant()
     pyautogui.keyUp('shift')
-    for sixtant in have_sixtant:
-        print(sixtant)
+    
+    with open('sixtant_value.txt', 'w', encoding='utf-8') as f:
+        for sixtant, price in sixtant_value.items():
+            f.write(f'{sixtant}:{price}\n')
