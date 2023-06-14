@@ -10,20 +10,11 @@ file_path = os.path.abspath(__file__)
 file_root = os.path.dirname(file_path)
 os.chdir(file_root)
 
-sixtant_value = {}
 def r():
     return random.uniform(0.1, 0.2)
 
 def r_pos(pos, range=1):
     return (pos[0]+random.randint(-range,range),pos[1]+random.randint(-range,range))
-
-with open('sixtant_value.txt', 'r', encoding='utf-8')as f:
-    for line in f:
-        if ':' not in line:
-            continue
-        sixtant = line.split(':')[0]
-        value = line.split(':')[1]
-        sixtant_value['sixtant'] = value
 
 
 start_pos = (24,137)
