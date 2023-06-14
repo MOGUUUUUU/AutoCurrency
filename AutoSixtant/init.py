@@ -23,7 +23,7 @@ def init():
             value = line.split(':')[1].strip()
             if value == '-1' :
                 value = input(f'need to set value {line}').strip()
-            sixtant_value[sixtant] = value
+            sixtant_value[sixtant] = '-1'
             # sixtant_value[sixtant] = str(random.randint(3,10))
 
     with open(sixtant_value_txt, 'w', encoding='utf-8') as f:
@@ -54,8 +54,8 @@ def cal_profits(ignore=0):
     
 if __name__ == '__main__':
     init()
-    print(len(sixtant_value))
-    for i in range (0,20):
-        print(f'ignore = {i}')
-        cal_profits(ignore=i) 
+    # print(len(sixtant_value))
+    # for i in range (0,20):
+    #     print(f'ignore = {i}')
+    #     cal_profits(ignore=i) 
     
